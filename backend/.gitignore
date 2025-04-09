@@ -13,6 +13,8 @@ dist/
 
 # deps
 node_modules/
+src/node_modules/
+backend/generated/
 .wrangler
 
 # env
