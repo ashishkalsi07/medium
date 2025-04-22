@@ -62,6 +62,8 @@ blogRouter.post('/', async (c) => {
         data: blog
     })
 })
+
+
 blogRouter.put('/', async (c) => {
     const body = await c.req.json()
     const { success } = updateBlogInput.safeParse(body)
@@ -106,3 +108,28 @@ blogRouter.get('/:id', async (c) => {
         data: blog
     })
 })
+
+blogRouter.get('/bulk', async (c) => {
+    console.log("Entered")
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    const blogs = await prisma.post.findMany({
+        select: {
+            content: true,
+            title: true,
+            id: true,
+            author: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
+    return c.json({
+        blogs
+    })
+})
+
+
+

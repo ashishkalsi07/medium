@@ -2,19 +2,24 @@ import { Hono } from "hono";
 import { PrismaClient } from '../generated/prisma/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign } from "hono/jwt";
-import { signUpInput,signinInput } from "@ashishkalsi07/med-common";
+import { signUpInput, signinInput } from "@ashishkalsi07/med-common";
 
 export const userRouter = new Hono<{
     Bindings: {
         DATABASE_URL: string
-      }
+    }
 }>();
 
 userRouter.post('/signup', async (c) => {
     const body = await c.req.json()
-    const { success } = signUpInput.safeParse(body)
-    if (!success) {
-        return c.json({ error: "Invalid Input" })
+    
+    try {
+        const { success } = signUpInput.safeParse(body)
+        if (!success) {
+            console.log({ error: "Invalid Input" })
+        }
+    } catch (error) {
+        console.log("Error parsing input", error)
     }
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -55,7 +60,7 @@ userRouter.post('/signin', async (c) => {
     })
     console.log("User", user)
     if (!user) {
-        return c.json({ error: "User Not Found" })
+        return c.json({ error: "User Not Found" }, 400)
     }
     const jwt = await sign({ id: user.id }, 'mySecretKey')
     return c.json({ jwt: jwt })
