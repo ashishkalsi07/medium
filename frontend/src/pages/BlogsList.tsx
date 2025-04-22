@@ -12,7 +12,7 @@ const Blog = () => {
         <AppBar />
       </div>
       <div className='flex justify-center'>
-        <div className='min-w-lg max-w-7xl cursor-pointer'>
+        <div className='cursor-pointer'>
           {
             blogs.map(blog => {
               const currentdate = new Date();
