@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import { BACKEND_URL } from "../config";
 import {useNavigate} from 'react-router-dom'
-
+import { useState } from "react";
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

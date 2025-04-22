@@ -1,5 +1,5 @@
-import Appbar from "../components/Appbar";
-import Fullblog from "../components/fullblog";
+import AppBar from "../components/AppBar";
+import FullBlog from "../components/Fullblog";
 import { useBlog } from "../hooks";
 import {useParams} from "react-router-dom";
 
@@ -11,7 +11,7 @@ const Blog = () => {
     console.log("Blog",blog)
     if ( loading || !blog) {
         return <div>
-            <Appbar />
+            <AppBar />
             <div className="h-screen flex flex-col justify-center">
                 <div className="flex justify-center">
                     Loading
@@ -20,7 +20,7 @@ const Blog = () => {
         </div>
     }
     return <div>
-    <Fullblog blog={blog}/>
+    <FullBlog blog={blog}/>
     </div>
 }
 
